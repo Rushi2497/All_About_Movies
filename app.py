@@ -4,7 +4,6 @@ import streamlit as st
 from load_pipe import pipe
 from Utilities.scrape import get_imdb_reviews, get_wiki_plot
 from Utilities.sentiments import mean_sentiment
-from Utilities.storage import history, sentiment_dict, plots
 from Utilities.summarizer import extract_summary
 from Utilities.recommend import get_recommendations, tmdb_soup
 import warnings
@@ -19,6 +18,12 @@ hide_menu_style = '''
                   '''
 st.markdown(hide_menu_style,unsafe_allow_html=True)
 
+if 'history' not in st.session_state:
+    st.session_state.history = []
+if 'sentiment_dict' not in st.session_state:
+    st.session_state.sentiment_dict = {}
+if 'plots' not in st.session_state:
+    st.session_state.plots = {}
 
 st.title('All About Movies 📽️')
 st.write('Need to know what the general consensus of reviewers about a movie is? Maybe you just need a short summary of a movie with a few other recommendations. Then this is just the website you need! ')
@@ -38,10 +43,10 @@ with tab1:
         title, year, movie_reviews25 = get_imdb_reviews(text)
         resultant_array = pipe.predict(movie_reviews25)
 
-        if title not in history:
-            history.append(title)
+        if title not in st.session_state.history:
+            st.session_state.history.append(title)
         sentiment, psum = mean_sentiment(resultant_array)
-        sentiment_dict[title] = {'Overall Sentiment':sentiment,'Positive':psum,'Negative':25-psum}
+        st.session_state.sentiment_dict[title] = {'Overall Sentiment':sentiment,'Positive':psum,'Negative':25-psum}
         
         st.write(' '.join(['Overall Sentiment:', sentiment]))
         col1, col2 = st.columns(2)
@@ -54,8 +59,8 @@ with tab1:
     
     with st.expander('Searched Sentiments'):
         st.info('View the sentiment information for all your searched movies.')
-        if sentiment_dict != {}:
-            sdf = pd.DataFrame(sentiment_dict)
+        if st.session_state.sentiment_dict != {}:
+            sdf = pd.DataFrame(st.session_state.sentiment_dict)
             sdf = sdf.transpose()[['Positive','Negative']]
             fig, ax = plt.subplots(figsize=(10,8))
             sdf.plot(kind='bar',ax=ax, ylim=(0,30))
@@ -74,11 +79,11 @@ with tab2:
     if analyse and title:
         try:
             wiki_plot = get_wiki_plot(title,year)
-            plots[title] = wiki_plot
+            st.session_state.plots[title] = wiki_plot
         except:
-            plots[title] = ''
+            st.session_state.plots[title] = ''
     
-    movie = st.selectbox('Select a movie for which you want to display the plot or the summary',options=history)
+    movie = st.selectbox('Select a movie for which you want to display the plot or the summary',options=st.session_state.history)
     alpha = st.number_input('Enter an alpha to increase/decrease length of the summary. More alpha --> Less summary length',value=1.00,step=0.05,min_value=0.00)
     col1, col2, col3 = st.columns([1,1,1])
     with col1:
@@ -87,23 +92,23 @@ with tab2:
         summarize = st.button('Display Plot Summary')
 
     if plot and movie:
-        if plots[movie] == '':
+        if st.session_state.plots[movie] == '':
             st.write('Sorry... Cannot scrape the movie plot for this particular movie.')
         else:
-            st.write(plots[movie])
+            st.write(st.session_state.plots[movie])
 
     if summarize and movie:
-        if plots[movie] == '':
+        if st.session_state.plots[movie] == '':
             st.write('Sorry... Cannot scrape the movie plot for this particular movie.')
         else:    
-            summary = extract_summary(plots[movie],alpha)
+            summary = extract_summary(st.session_state.plots[movie],alpha)
             st.write(summary)
 
 
 with tab3:
     st.header('Movie Recommendations 🍿')
     st.info('Movie recommendations based on your search history!\n\nNOTE: Only movies between 1970 and 2016 will be recommended.')
-    movie = st.selectbox(label='Show Movies Like',options=history)
+    movie = st.selectbox(label='Show Movies Like',options=st.session_state.history)
     recommend = st.button('Show Recommendations')
     if movie and recommend:
         try:
