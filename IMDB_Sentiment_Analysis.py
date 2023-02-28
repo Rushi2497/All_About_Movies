@@ -1,8 +1,10 @@
 import re
 from bs4 import BeautifulSoup
-from nltk.stem import PorterStemmer
+import nltk
+nltk.download('stopwords')
 from nltk.corpus import stopwords
 stop_words = set(stopwords.words('english'))
+from nltk.stem import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.pipeline import Pipeline
