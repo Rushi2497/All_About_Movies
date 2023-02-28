@@ -1,5 +1,7 @@
 from collections import Counter
 import re
+import nltk
+nltk.download('punkt')
 from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 stop_words = set(stopwords.words('english'))
