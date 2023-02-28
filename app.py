@@ -20,8 +20,11 @@ st.markdown(hide_menu_style,unsafe_allow_html=True)
 
 @st.cache_data
 def store():
-    return [],{},{}
-history, sentiment_dict, plots = store()
+    history = []
+    sentiment_dict = {}
+    plots = {}
+
+store()
 
 st.title('All About Movies 📽️')
 st.write('Need to know what the general consensus of reviewers about a movie is? Maybe you just need a short summary of a movie with a few other recommendations. Then this is just the website you need! ')
