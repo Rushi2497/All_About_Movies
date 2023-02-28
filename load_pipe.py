@@ -1,3 +1,3 @@
 import joblib
 
-pipe = joblib.load('/Dormant/pipe')
+pipe = joblib.load('All_About_Movies/Dormant/pipe')

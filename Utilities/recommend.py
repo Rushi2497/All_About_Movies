@@ -3,7 +3,7 @@ from Utilities.scrape import get_tmdb_soup
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-tmdb_soup = pd.read_csv('/Dormant/tmdb_soup.csv')
+tmdb_soup = pd.read_csv('All_About_Movies/Dormant/tmdb_soup.csv')
 tmdb_soup.release_date = tmdb_soup.release_date.astype('str')
 
 def get_recommendations(title,tmdb_soup):
