@@ -52,6 +52,7 @@ with tab1:
         if skip:
             st.session_state.sentiment_dict[title] = {'Overall Sentiment':sentiment,'Positive':psum,'Negative':l-psum}
         
+        st.write('Movie: '+title)
         st.write(' '.join(['Overall Sentiment:', sentiment]))
         col1, col2 = st.columns(2)
         with col1:
@@ -92,7 +93,7 @@ with tab2:
             st.session_state.plots[title] = ''
     
     movie = st.selectbox('Select a movie for which you want to display the plot or the summary.',options=st.session_state.history)
-    alpha = st.number_input('Change the alpha value to adjust the length of the summary. More alpha --> Less length.',value=1.00,step=0.05,min_value=0.00)
+    alpha = st.slider('Change the alpha value to adjust the length of the summary. More alpha --> Less length.',value=1.00,step=0.05,min_value=0.80,max_value=1.20)
     col1, col2, col3 = st.columns([1,1,1])
     with col1:
         plot = st.button('Display Movie Plot')
