@@ -37,16 +37,20 @@ with tab1:
     text = st.text_input('Enter any movie name:')
     analyse = st.button('Find Sentiment')
     title = 0
+    skip = 1
 
     if analyse and text:
         
         title, year, movie_reviews25 = get_imdb_reviews(text)
         resultant_array = pipe.predict(movie_reviews25)
-
-        if title not in st.session_state.history:
-            st.session_state.history.append(title)
         sentiment, psum = mean_sentiment(resultant_array)
-        st.session_state.sentiment_dict[title] = {'Overall Sentiment':sentiment,'Positive':psum,'Negative':25-psum}
+
+        if title in st.session_state.history:
+            skip = 0
+        if skip:
+            st.session_state.history.append(title)
+        if skip:
+            st.session_state.sentiment_dict[title] = {'Overall Sentiment':sentiment,'Positive':psum,'Negative':25-psum}
         
         st.write(' '.join(['Overall Sentiment:', sentiment]))
         col1, col2 = st.columns(2)
@@ -57,8 +61,8 @@ with tab1:
         if sentiment == 'Mixed':
             st.write('Looks like the reviews are mixed. You might want to check out the plot summary of the movie.')
     
-    with st.expander('Searched Sentiments'):
-        st.info('View the sentiment information for all your searched movies.')
+    with st.expander('Sentiments History'):
+        st.info('View the sentiment information for all the movies you searched.')
         if st.session_state.sentiment_dict != {}:
             sdf = pd.DataFrame(st.session_state.sentiment_dict)
             sdf = sdf.transpose()[['Positive','Negative']]
@@ -75,16 +79,16 @@ with tab1:
 
 with tab2:
     st.header('Plot Summarization 📋')
-    st.info('This section will display a summary of the movie plot scraped from its wikipedia page.')
-    if analyse and title:
+    st.info('This section summarizes movie plots from Wikipedia. View the movie plot or the summary.')
+    if analyse and title and skip:
         try:
             wiki_plot = get_wiki_plot(title,year)
             st.session_state.plots[title] = wiki_plot
         except:
             st.session_state.plots[title] = ''
     
-    movie = st.selectbox('Select a movie for which you want to display the plot or the summary',options=st.session_state.history)
-    alpha = st.number_input('Enter an alpha to increase/decrease length of the summary. More alpha --> Less summary length',value=1.00,step=0.05,min_value=0.00)
+    movie = st.selectbox('Select a movie for which you want to display the plot or the summary.',options=st.session_state.history)
+    alpha = st.number_input('Change the alpha value to adjust the length of the summary. More alpha --> Less length.',value=1.00,step=0.05,min_value=0.00)
     col1, col2, col3 = st.columns([1,1,1])
     with col1:
         plot = st.button('Display Movie Plot')
