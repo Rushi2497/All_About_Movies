@@ -52,7 +52,7 @@ with tab1:
         if skip:
             st.session_state.sentiment_dict[title] = {'Overall Sentiment':sentiment,'Positive':psum,'Negative':l-psum}
         
-        st.write('Movie: '+title)
+        st.write('Movie: '+title+' ('+year+')')
         st.write(' '.join(['Overall Sentiment:', sentiment]))
         col1, col2 = st.columns(2)
         with col1:
