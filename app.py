@@ -111,7 +111,7 @@ with tab2:
 
 with tab3:
     st.header('Movie Recommendations 🍿')
-    st.info('Movie recommendations based on your search history!\n\nNOTE: Only movies between 1970 and 2016 will be recommended.')
+    st.info('Movie recommendations based on your search history!\n\nNOTE: Only English movies between 1970 and 2016 will be recommended.')
     movie = st.selectbox(label='Show Movies Like',options=st.session_state.history)
     recommend = st.button('Show Recommendations')
     if movie and recommend:
