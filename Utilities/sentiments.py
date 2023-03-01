@@ -2,6 +2,7 @@ def mean_sentiment(resultant_array):
     
     mean = resultant_array.mean()
     psum = resultant_array.sum()
+    l = len(resultant_array)
     
     if mean < 0.2:
         avg_sentiment = 'Extremely Negative'
@@ -14,4 +15,4 @@ def mean_sentiment(resultant_array):
     else:
         avg_sentiment = 'Mixed'
     
-    return avg_sentiment, psum
+    return avg_sentiment, psum, l
