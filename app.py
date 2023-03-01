@@ -59,7 +59,11 @@ with tab1:
         with col2:
             st.write('Number of negative reviews: {}'.format(25-psum))
         if sentiment == 'Mixed':
-            st.write('Looks like the reviews are mixed. You might want to check out the plot summary of the movie.')
+            st.write('Looks like the reviews are mixed. Check out the plot summary of the movie to decide for yourself.')
+        if sentiment == 'Extremely Positive':
+            st.write('Looking good! Go ahead and watch that movie right now.')
+        if sentiment == 'Extremely Negative':
+            st.write('Ohh no. You might want to skip this one...')
     
     with st.expander('Sentiments History'):
         st.info('View the sentiment information for all the movies you searched.')
