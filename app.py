@@ -33,7 +33,7 @@ tab1, tab2, tab3, tab4 = st.tabs(['Sentiment Analysis','Plot Summarization','Mov
 
 with tab1:    
     st.header('Sentiment Analysis 😃😐☹️')
-    st.info('This section analyzes the sentiment of the top 25 IMDB reviews of the movies you search.')
+    st.info('Ever spent a lot of time reading reviews trying to figure out if you should watch a movie or not?\n\nThis section will do just that for you and analyze the sentiment of the top IMDB reviews of the movies you search, giving you an overall sentiment as well as the number of positive and negative reviews.')
     text = st.text_input('Enter any movie name:')
     analyse = st.button('Find Sentiment')
     title = 0
@@ -67,7 +67,7 @@ with tab1:
             st.write('Ohh no. You might want to skip this one...')
     
     with st.expander('Sentiments History'):
-        st.info('View the sentiment information for all the movies you searched.')
+        st.info('View the sentiment information for all the movies you searched up till now.')
         if st.session_state.sentiment_dict != {}:
             sdf = pd.DataFrame(st.session_state.sentiment_dict)
             sdf = sdf.transpose()[['Positive','Negative']]
@@ -84,7 +84,7 @@ with tab1:
 
 with tab2:
     st.header('Plot Summarization 📋')
-    st.info('This section summarizes movie plots from Wikipedia. View the movie plot or the summary.')
+    st.info('This section summarizes movie plots from Wikipedia using term frequency based sentence scoring. The alpha value is just a multiplying factor using which you can adjust the length of the summary.\n\nGo ahead and try viewing the movie plot or the summary.')
     if analyse and title and skip:
         try:
             wiki_plot = get_wiki_plot(title,year)
@@ -116,7 +116,7 @@ with tab2:
 
 with tab3:
     st.header('Movie Recommendations 🍿')
-    st.info('Movie recommendations based on your search history!\n\nNOTE: Only English movies between 1970 and 2016 will be recommended.')
+    st.info('Movie recommendations based on your search history!\n\nThis section utilizes a matrix of cosine similarities calculated between movies to find similar movies. Weightage of movie meta-data is as follows: Genre (2x), Director (2x), Cast and Keywords (1x)\n\nNOTE: While recommendations can be presented for any movie of any year, only English movies between 1970 and 2016 will be recommended for the same.')
     movie = st.selectbox(label='Show Movies Like',options=st.session_state.history)
     recommend = st.button('Show Recommendations')
     if movie and recommend:
