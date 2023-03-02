@@ -40,31 +40,33 @@ with tab1:
     skip = 1
 
     if analyse and text:
-        
-        title, year, movie_reviews25 = get_imdb_reviews(text)
-        resultant_array = pipe.predict(movie_reviews25)
-        sentiment, psum, l = mean_sentiment(resultant_array)
+        try:
+            title, year, movie_reviews25 = get_imdb_reviews(text)
+            resultant_array = pipe.predict(movie_reviews25)
+            sentiment, psum, l = mean_sentiment(resultant_array)
 
-        if title in st.session_state.history:
-            skip = 0
-        if skip:
-            st.session_state.history.append(title)
-        if skip:
-            st.session_state.sentiment_dict[title] = {'Overall Sentiment':sentiment,'Positive':psum,'Negative':l-psum}
-        
-        st.write('Movie: '+title+' ('+year+')')
-        st.write(' '.join(['Overall Sentiment:', sentiment]))
-        col1, col2 = st.columns(2)
-        with col1:
-            st.write('Number of positive reviews: {}'.format(psum))
-        with col2:
-            st.write('Number of negative reviews: {}'.format(l-psum))
-        if sentiment == 'Mixed':
-            st.write('Looks like the reviews are mixed. Check out the plot summary of the movie to decide for yourself.')
-        if sentiment == 'Extremely Positive':
-            st.write('Looking good! Go ahead and watch that movie right now.')
-        if sentiment == 'Extremely Negative':
-            st.write('Ohh no. You might want to skip this one...')
+            if title in st.session_state.history:
+                skip = 0
+            if skip:
+                st.session_state.history.append(title)
+            if skip:
+                st.session_state.sentiment_dict[title] = {'Overall Sentiment':sentiment,'Positive':psum,'Negative':l-psum}
+            
+            st.write('Movie: '+title+' ('+year+')')
+            st.write(' '.join(['Overall Sentiment:', sentiment]))
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write('Number of positive reviews: {}'.format(psum))
+            with col2:
+                st.write('Number of negative reviews: {}'.format(l-psum))
+            if sentiment == 'Mixed':
+                st.write('Looks like the reviews are mixed. Check out the plot summary of the movie to decide for yourself.')
+            if sentiment == 'Extremely Positive':
+                st.write('Looking good! Go ahead and watch that movie right now.')
+            if sentiment == 'Extremely Negative':
+                st.write('Ohh no. You might want to skip this one...')
+        except:
+            st.write('Looks like {} is not a movie name. Try typing the name close to the actual movie name.'.format(text))
     
     with st.expander('Sentiments History'):
         st.info('View the sentiment information for all the movies you searched up till now.')
