@@ -52,10 +52,14 @@ def get_wiki_plot(title,year):
     try:
         soup = get_wiki_soup(title,year)
         span = soup.find('span',class_='mw-headline',text='Plot')
+        if span is None:
+            span = soup.find('span',class_='mw-headline',text='Summary')
         header = span.find_parent()
     except:
         soup = get_wiki_soup(title,'')
         span = soup.find('span',class_='mw-headline',text='Plot')
+        if span is None:
+            span = soup.find('span',class_='mw-headline',text='Summary')
         header = span.find_parent()
     
     paragraphs = header.find_next_siblings()
@@ -109,6 +113,6 @@ def get_tmdb_soup(title):
         item = PS.stem(item.lower().replace(' ',''))
         keywords.append(item)
     
-    soup = ' '.join(2*director + keywords + cast + genres)
+    soup = ' '.join(2*genres + cast + 2*director + keywords)
     
     return soup
