@@ -12,7 +12,7 @@ I will briefy go through the details of each section in this application explain
 ### Sentiment Analysis
 
 Ratings give us an objective benchmark for movies, but as humans we need a subjctive ground to properly judge it. The best way to do that is using sentiment analysis.
-This section calculates the sentiment of the top IMDb reviews of a movie scraped from the IMDb website using **requests** and **BeautifulSoup module**. Then it calculates the overall sentiment based on the positive reviews and total number of reviews on the first page of IMDb user reviews. The first page has the most helpful reviews as per IMDb's sorting of reviwes by relevence.
+This section calculates the sentiment of the top IMDb reviews of a movie scraped from the IMDb website using **requests** and **BeautifulSoup module**. Then it calculates the overall sentiment based on the positive reviews and total number of reviews on the first page of IMDb user reviews. The first page has the most helpful reviews as per IMDb's sorting of reviews by relevence.
 
 Below are preprocessing steps I did to train my ML model which predicts the sentiment of user reviews:
 1. Text cleaning - Involves removing non-word characters and punctuation
