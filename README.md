@@ -7,7 +7,7 @@ This web application is a small project I took to learn various aspects of Natur
 The motivation behind creating 'All About Movies' is that often we spend a lot of time in deciding whether we should watch a movie or not. We google the movie, check the user ratings, and read movie reviews to understand if the general audience like it or not. Not only that, but we also try to understand if the movie suits our taste.
 Considering the fact that it takes a lot of time to go through multiple reviews or read about the movie itself, I thought why not create something that can do the job for us. 
 <br><br>
-I will briefy go through the details of each section in this application explaining what logic/model was used to perform the tasks.
+I will briefy go through the details of each section in this application explaining what logic or model was used to perform the tasks.
 
 ### Sentiment Analysis
 
