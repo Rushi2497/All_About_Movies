@@ -1,3 +1,4 @@
 import joblib
+import pathlib
 
-pipe = joblib.load('all_about_movies/Dormant/pipe')
+pipe = joblib.load(str(pathlib.Path(__file__).parent).replace('\\','/')+'/Dormant/pipe')
