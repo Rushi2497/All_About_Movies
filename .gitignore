@@ -1,0 +1,13 @@
+# Specific Files
+
+# Ignore Python virtual environments
+.venv/
+
+# Ignore Python junk
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/

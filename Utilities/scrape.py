@@ -17,7 +17,7 @@ def get_imdb_reviews(user_input):
     imdb_patt = re.compile(r'https://www.imdb.com/title/tt\d+')
     main_link = imdb_patt.findall(source.text)[0]
     review_link = main_link + '/reviews'
-   
+
     source = requests.get(review_link,headers=header.generate())
     soup = BeautifulSoup(source.text,'html.parser')
     title_year = soup.find('div',class_='parent')
